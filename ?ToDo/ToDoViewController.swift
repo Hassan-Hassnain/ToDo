@@ -10,7 +10,7 @@ import UIKit
 
 class ToDoViewController: UITableViewController {
     
-    let itemArray = ["Find Mike", "Buy Eggs", "Distroy Demogorgon"]
+    var itemArray = ["Find Mike", "Buy Eggs", "Distroy Demogorgon"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,6 @@ class ToDoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
         cell.textLabel?.text = itemArray[indexPath.row]
-        
         return cell
     }
     //MARK - Table View Delegate Methods
@@ -43,6 +42,39 @@ class ToDoViewController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    //MARK - Add new item
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        //Local Variable to passing data in different blocks
+        var textField = UITextField()
+        
+        //Creating a alert dialog box for user interface
+        let alert = UIAlertController(title: "Add New ToDo Item", message: "", preferredStyle: .alert)
+        
+        //Adding text Field in alert dialog box
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Write the title of the new ToDo item"
+            textField = alertTextField
+        }
+        
+        //Creating action that will be triggered by pressing the "Add Item" on the alert dialog box
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            print("Sucess!")
+            if textField.text != nil {
+                self.itemArray.append(textField.text!)
+
+                self.tableView.reloadData()
+            }
+        }
+        
+        //Attaching the action / Function that will be triggered on pressing the button
+        alert.addAction(action)
+        
+        //Following line will present the alert dialog box to user that is prepared in upper line of codes
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
     
 
 }
