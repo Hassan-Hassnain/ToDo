@@ -11,16 +11,23 @@ import UIKit
 class ToDoViewController: UITableViewController {
     
     var itemArray = ["Find Mike", "Buy Eggs", "Distroy Demogorgon"]
+    
+    let defaults = UserDefaults()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        if let item = defaults.array(forKey: "ToDoListArray"){
+            itemArray = item as! [String]
+        }
+        
     }
 
-    //Mark:- Table View Data Source Methods
+    //MARK: - Table View Data Source Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(String(itemArray.count))
+        //print(String(itemArray.count))
         return itemArray.count
     }
     
@@ -42,7 +49,7 @@ class ToDoViewController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    //MARK - Add new item
+    //MARK: - Add new item
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         //Local Variable to passing data in different blocks
@@ -63,6 +70,8 @@ class ToDoViewController: UITableViewController {
             if textField.text != nil {
                 
                 self.itemArray.append(textField.text!)
+                
+                self.defaults.setValue(self.itemArray, forKey: "ToDoListArray")
                 
                 //Update the UITableViewController items
                 self.tableView.reloadData()
