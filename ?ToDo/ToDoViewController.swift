@@ -61,8 +61,10 @@ class ToDoViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             print("Sucess!")
             if textField.text != nil {
+                
                 self.itemArray.append(textField.text!)
-
+                
+                //Update the UITableViewController items
                 self.tableView.reloadData()
             }
         }
