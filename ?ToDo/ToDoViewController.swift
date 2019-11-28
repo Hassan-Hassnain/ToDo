@@ -12,8 +12,8 @@ class ToDoViewController: UITableViewController {
     
     var itemArray = ["Find Mike", "Buy Eggs", "Distroy Demogorgon"]
     
-    let defaults = UserDefaults()
-
+    let defaults = UserDefaults.standard
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
