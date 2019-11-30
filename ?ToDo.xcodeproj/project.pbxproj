@@ -13,6 +13,8 @@
 		3C5700CD238EB0C80056E8DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C5700CB238EB0C80056E8DF /* Main.storyboard */; };
 		3C5700CF238EB0CD0056E8DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C5700CE238EB0CD0056E8DF /* Assets.xcassets */; };
 		3C5700D2238EB0CD0056E8DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C5700D0238EB0CD0056E8DF /* LaunchScreen.storyboard */; };
+		3CDA181D239010610035FADE /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3CDA181B239010610035FADE /* DataModel.xcdatamodeld */; };
+		3CDA182223901B2C0035FADE /* MyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDA182123901B2C0035FADE /* MyItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		3C5700D1238EB0CD0056E8DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C5700D3238EB0CD0056E8DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C5700D9238EB0D80056E8DF /* ?ToDo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "?ToDo.entitlements"; sourceTree = "<group>"; };
+		3CDA181C239010610035FADE /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		3CDA182123901B2C0035FADE /* MyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,13 +64,39 @@
 				3C5700D9238EB0D80056E8DF /* ?ToDo.entitlements */,
 				3C5700C5238EB0C80056E8DF /* AppDelegate.swift */,
 				3C5700C7238EB0C80056E8DF /* SceneDelegate.swift */,
-				3C5700C9238EB0C80056E8DF /* ToDoViewController.swift */,
-				3C5700CB238EB0C80056E8DF /* Main.storyboard */,
+				3CDA181F239010800035FADE /* Controller */,
+				3CDA181E2390106B0035FADE /* View */,
+				3CDA1820239010C10035FADE /* Model */,
 				3C5700CE238EB0CD0056E8DF /* Assets.xcassets */,
 				3C5700D0238EB0CD0056E8DF /* LaunchScreen.storyboard */,
 				3C5700D3238EB0CD0056E8DF /* Info.plist */,
 			);
 			path = "?ToDo";
+			sourceTree = "<group>";
+		};
+		3CDA181E2390106B0035FADE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3C5700CB238EB0C80056E8DF /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3CDA181F239010800035FADE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3C5700C9238EB0C80056E8DF /* ToDoViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3CDA1820239010C10035FADE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3CDA181B239010610035FADE /* DataModel.xcdatamodeld */,
+				3CDA182123901B2C0035FADE /* MyItem.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +171,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C5700CA238EB0C80056E8DF /* ToDoViewController.swift in Sources */,
+				3CDA181D239010610035FADE /* DataModel.xcdatamodeld in Sources */,
+				3CDA182223901B2C0035FADE /* MyItem.swift in Sources */,
 				3C5700C6238EB0C80056E8DF /* AppDelegate.swift in Sources */,
 				3C5700C8238EB0C80056E8DF /* SceneDelegate.swift in Sources */,
 			);
@@ -347,6 +379,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3CDA181B239010610035FADE /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3CDA181C239010610035FADE /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 3CDA181C239010610035FADE /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 3C5700BA238EB0C80056E8DF /* Project object */;
 }
