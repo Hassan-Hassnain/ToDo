@@ -7,40 +7,27 @@
 //
 
 import UIKit
+import CoreData
 
 class ToDoViewController: UITableViewController {
     
-    var itemArray = [MyItem]()
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var itemArray = [Item]()
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-        //print(dataFilePath)
-        
-        // Do any additional setup after loading the view.
-        let newItem = MyItem()
-        newItem.title = "Find Mike"
-        newItem.done = false
-        itemArray.append(newItem)
-        
-        let newItem1 = MyItem()
-        newItem1.title = "Buy Eggos"
-        newItem1.done = false
-        itemArray.append(newItem1)
-        
-        let newItem2 = MyItem()
-        newItem2.title = "Buy Milk"
-        newItem2.done = false
-        itemArray.append(newItem2)
-        
-//        if let item = defaults.array(forKey: "ToDoListArray") as? [MyItem]{
-//            itemArray = item
-//        }
+        //Loading data from database
+        loadData()
+          
     }
     
-    //MARK: - Table View Data Source Methods
+    //MARK: - Table View Data Source Me thods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //print(String(itemArray.count))
@@ -88,11 +75,13 @@ class ToDoViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             print("Sucess!")
             if textField.text != nil {
-                let item = MyItem()
-                item.title = textField.text!
-                item.done = false
                 
-                self.itemArray.append(item)
+                let newItem = Item(context: self.context)
+                
+                newItem.title = textField.text!
+                newItem.done = false
+                
+                self.itemArray.append(newItem)
                 
                 self.saveData()
             }
@@ -106,18 +95,41 @@ class ToDoViewController: UITableViewController {
         
     }
     
+    //MARK: - DATABASE FUNCTIONS
+    
+    
     func saveData(){
-        let encoder = PropertyListEncoder()
         
         do{
-            let data = try encoder.encode(self.itemArray)
-            try data.write(to: self.dataFilePath!)
+           try context.save()
         } catch{
-            print("Error encoding item array/(error)")
+            print("Error Saving new item in context.save\(error)")
         }
         
         //Update the UITableViewController items
         self.tableView.reloadData()
+    }
+  
+    func loadData(){
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error during performing the fetch request\(error)")
+        }
+    }
+    // Function to update data in database
+    func updateData(rowIndex: Int, titleString: String)
+    {
+        itemArray[rowIndex].title = titleString
+        saveData()
+    }
+    //Function to remove data from database
+    func removeData(rowIndex: Int)
+    {
+        print(rowIndex)
+        context.delete(itemArray[rowIndex])          //It is compulsory to call context.delete before removing the item from itemArray
+        itemArray.remove(at: rowIndex)
     }
     
 }
