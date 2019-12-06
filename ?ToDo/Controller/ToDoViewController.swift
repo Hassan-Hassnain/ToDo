@@ -8,8 +8,9 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
-class ToDoViewController: UITableViewController{
+class ToDoViewController: SwipeTableViewController{
     
     var item: Results<Item>?
     let realm = try! Realm()
@@ -26,10 +27,22 @@ class ToDoViewController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        
+   
         
     }
+   
+    //To change the navigation controller's navigation bar color equal to category cell background color
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        guard let navBar = navigationController?.navigationBar else { fatalError("Navigation Controller does not exist")  }
+        if let navBarColor = UIColor(hexString: selectedCategory!.categoryColor!) {
+            navBar.barTintColor = navBarColor
+            navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+            navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(navBarColor, returnFlat: true)]
+            
+        }
+    }
     //MARK: - Table View Data Source Me thods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,13 +52,19 @@ class ToDoViewController: UITableViewController{
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         if let newItem = item?[indexPath.row]{
             
             cell.textLabel?.text = newItem.title
             
             cell.accessoryType = (newItem.done ? .checkmark : .none)
+            if let color = UIColor(hexString: selectedCategory!.categoryColor!)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(item!.count)) {
+                cell.backgroundColor = color
+                cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
+            }
+            
         } else {
             cell.textLabel?.text = "No Item Added"
         }
@@ -57,8 +76,6 @@ class ToDoViewController: UITableViewController{
         if let newItem = item?[indexPath.row]{
             do {
                 try realm.write {  newItem.done = !newItem.done   }
-                // To delete item from realm database
-              //  try realm.delete(newItem)
             } catch {
                 print("Error updating the done status of the clicked item \(error)")
             }
@@ -91,6 +108,7 @@ class ToDoViewController: UITableViewController{
                             let newItem = Item()
                             newItem.title = textField.text!
                             newItem.dateCreated = Date()
+                            newItem.itemColor =  UIColor.randomFlat().hexValue()
                             currentCategory.items.append(newItem)
                         }
                     } catch {
@@ -117,6 +135,25 @@ class ToDoViewController: UITableViewController{
         item = selectedCategory?.items.sorted(byKeyPath:  "title", ascending: true)
         tableView.reloadData()
     }
+    
+    override func updateModel(at indexPath: IndexPath) {
+        
+      if let itemForDeletion = item?[(indexPath.row)]
+      {
+          do
+          {
+              try self.realm.write
+              {
+                  self.realm.delete(itemForDeletion)
+              }
+          } catch
+          {
+              print("Error while deleting the Category \(error)")
+          }
+      }
+        tableView.reloadData()
+    }
+    
     // Function to update data in database
     //    func updateData(rowIndex: Int, titleString: String)
     //    {
@@ -155,6 +192,7 @@ extension ToDoViewController: UISearchBarDelegate {
                 }
         }
     }
+    func toBeUnwrappedtoUse (){
 ////        else   ///Extra functionality from lectures
 ////        {
 ////            let request: NSFetchRequest<Item> = Item.fetchRequest()
@@ -168,7 +206,7 @@ extension ToDoViewController: UISearchBarDelegate {
 ////            tableView.reloadData()
 ////        }
 //
-//
+    }
 }
 
 
